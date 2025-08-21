@@ -17,7 +17,7 @@ from BoManifolds.math_utils.gegenbauer_polynomials import gegenbauer_polynomial
 from BoManifolds.math_utils.jacobi_theta_functions import jacobi_theta_function3
 
 dirname = os.path.dirname(os.path.realpath(__file__))
-device = torch.cuda.current_device()
+device = "cpu"
 torch.set_default_dtype(torch.float32)
 
 

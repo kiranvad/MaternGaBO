@@ -20,13 +20,7 @@ from BoManifolds.manifold_optimization.constrained_trust_regions import StrictCo
 import BoManifolds.test_functions_bo.test_functions_manifolds as test_functions_manifolds
 
 dirname = os.path.dirname(os.path.realpath(__file__))
-
-if torch.cuda.is_available():
-    device = torch.cuda.current_device()
-    print('Device ', device)
-else:
-    device = 'cpu'
-
+device = 'cpu'
 torch.set_default_dtype(torch.float32)
 
 '''
@@ -119,7 +113,7 @@ def get_bounds(dimension):
 
 
 def get_constraints(bo_type):
-    if bo_type is "GaBO":
+    if bo_type=="GaBO":
         return None
     else:
         # Norm-1 constraints
@@ -162,9 +156,9 @@ def main(manifold_name, dimension, kernel_name, acquisition_name, bo_type, test_
     seeds = np.random.randint(0, 2 ** 16, size=nb_seeds)
 
     # Set numpy and pytorch seeds
-    random.seed(seeds[seed_id])
-    np.random.seed(seeds[seed_id])
-    torch.manual_seed(seeds[seed_id])
+    random.seed(seeds[seed_id].item())
+    np.random.seed(seeds[seed_id].item())
+    torch.manual_seed(seeds[seed_id].item())
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
 
@@ -259,7 +253,7 @@ def main(manifold_name, dimension, kernel_name, acquisition_name, bo_type, test_
         if 'Matern' in kernel_name and nu is None:
             botorch.optim.utils.sample_all_priors(mll_fct.model.covar_module)
         # Fit GP model
-        botorch.fit_gpytorch_model(mll=mll_fct)
+        botorch.fit_gpytorch_mll(mll=mll_fct)
 
         # Define the acquisition function
         acq_fct = acquisition_type(model=model, best_f=best_f[-1], maximize=False)
@@ -343,7 +337,7 @@ if __name__ == "__main__":
                         help="Set the kernel. Options: RBFKernel, MaternKernel "
                              "SphereRiemannianGaussianKernel, SphereRiemannianMaternKernel, "
                              "SphereRiemannianIntegratedMaternKernel, SphereApproximatedGaussianKernel")
-    parser.add_argument("--acquisition", dest="acquisition", default="ExpectedImprovement",
+    parser.add_argument("--acquisition", dest="acquisition", default="LogExpectedImprovement",
                         help="Set the acquisition function. Options: ExpectedImprovement, ProbabilityOfImprovement, "
                              "UpperConfidenceBound, IntegratedExpectedImprovement, ...")
     parser.add_argument("--seed", dest="seed", type=int, default=0,

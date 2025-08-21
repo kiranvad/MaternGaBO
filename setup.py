@@ -7,8 +7,8 @@ with open('README.md', 'r') as f:
 # setup
 setup(
     name='GaBO Matern kernels',
-    version='',
-    description='',
+    version='1.0',
+    description='None available',
     long_description = long_description,
     long_description_content_type="text/markdown",
     author='Noemie Jaquier, Viacheslav Borovitskiy, Andrei Smolensky, Alexander Terenin, Tamim Asfour, Leonel Rozo ',

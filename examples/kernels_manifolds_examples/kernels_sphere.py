@@ -10,10 +10,7 @@ from BoManifolds.Riemannian_utils.sphere_utils_torch import sphere_distance_torc
 from BoManifolds.kernel_utils.kernels_sphere import SphereRiemannianGaussianKernel, SphereRiemannianMaternKernel, \
     SphereRiemannianIntegratedMaternKernel, SphereApproximatedGaussianKernel
 
-if torch.cuda.is_available():
-    device = torch.cuda.current_device()
-else:
-    device = 'cpu'
+device = 'cpu'
 
 '''
 This example shows the computation of various kernels on the sphere manifold. 

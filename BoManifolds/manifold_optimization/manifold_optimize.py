@@ -18,7 +18,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple, Union
 
 from botorch.acquisition import AcquisitionFunction
 from botorch.acquisition.analytic import AnalyticAcquisitionFunction
-from botorch.acquisition.utils import is_nonnegative
+from botorch.optim.initializers import is_nonnegative
 from botorch.exceptions import BadInitialCandidatesWarning
 from botorch.generation import get_best_candidates
 from botorch.optim.initializers import initialize_q_batch, initialize_q_batch_nonneg
@@ -32,7 +32,7 @@ from pymanopt import Problem
 
 from BoManifolds.manifold_optimization.approximate_hessian import get_hessianfd
 
-device = torch.cuda.current_device()
+device = "cpu"
 torch.set_default_dtype(torch.float32)
 
 
@@ -340,7 +340,7 @@ def gen_batch_initial_conditions_manifold(
 
                 Y_rnd = torch.cat(Y_rnd_list).to(X_rnd)
 
-            batch_initial_conditions = init_func(X=X_rnd, Y=Y_rnd, n=num_restarts, **init_kwargs)
+            batch_initial_conditions = init_func(X=X_rnd, acq_vals=Y_rnd, n=num_restarts, **init_kwargs)
 
             # Post-process the initial conditions if we have a product of manifolds
             if isinstance(manifold, Product):
@@ -353,7 +353,7 @@ def gen_batch_initial_conditions_manifold(
                 batch_initial_conditions = initial_conditions
             # Otherwise, squeeze and transform to numpy array
             else:
-                batch_initial_conditions = torch.squeeze(batch_initial_conditions).cpu().detach().numpy()
+                batch_initial_conditions = torch.squeeze(batch_initial_conditions[0]).cpu().detach().numpy()
 
             if not any(issubclass(w.category, BadInitialCandidatesWarning) for w in ws):
                 return batch_initial_conditions

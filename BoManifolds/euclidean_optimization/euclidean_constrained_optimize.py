@@ -18,7 +18,7 @@ from torch.nn import Module
 
 from botorch.acquisition import AcquisitionFunction
 from botorch.acquisition.analytic import AnalyticAcquisitionFunction
-from botorch.acquisition.utils import is_nonnegative
+from botorch.optim.initializers import is_nonnegative
 from botorch.exceptions import BadInitialCandidatesWarning
 from botorch.generation import get_best_candidates
 from botorch.utils.sampling import draw_sobol_samples
@@ -30,7 +30,7 @@ from botorch.optim.parameter_constraints import (
     make_scipy_bounds,
 )
 
-device = torch.cuda.current_device()
+device = "cpu"
 torch.set_default_dtype(torch.float32)
 
 
