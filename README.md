@@ -3,7 +3,7 @@
 This repository contains the source code  to perform Geometry-aware Bayesian Optimization with Riemannian Matérn kernels.
 
 # Dependencies
-This code runs with Python>=3.7. It requires the following packages:
+This code runs with Python>=3.11. It requires the following packages:
 - numpy
 - scipy
 - matplotlib
@@ -13,11 +13,20 @@ This code runs with Python>=3.7. It requires the following packages:
 - botorch
 - sympy
 
-# Installation 
-To install it, first clone the repository and install the related packages, as explained below.
+See `environment.yml` pacakge for the exact versions of each pacakge. 
 
+# Installation 
+To install it, first clone the repository and create a copy of conda environment using the `environment.yml` file:
 ```
-pip install -r requirements.txt
+conda env create -f environment.yml
+```
+Install the required pymanopt pacakge from here:
+```
+pip install git+https://github.com/NoemieJaquier/pymanopt.git#egg=pymanopt
+```
+Then install the package from repository using:
+```
+pip install -e .
 ```
 
 # Examples
