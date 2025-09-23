@@ -1,0 +1,3 @@
+[submodule "src/pymanopt"]
+	path = src/pymanopt
+	url = https://github.com/NoemieJaquier/pymanopt.git
