@@ -79,6 +79,7 @@ if __name__ == "__main__":
 
     x1 = torch.from_numpy(data).to(device)
     x2 = torch.from_numpy(point.T).to(device)
+    print(x1.shape, x2.shape)
 
     # RBF kernel
     rbf_kernel = SphereRiemannianGaussianKernel(dim_sphere)
